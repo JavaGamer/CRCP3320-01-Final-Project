@@ -1,4 +1,4 @@
-import { ImageSource, Loader } from "excalibur";
+import { DefaultLoader, ImageSource, Loader } from "excalibur";
 
 // It is convenient to put your resources in one place
 export const Resources = {
@@ -8,7 +8,7 @@ export const Resources = {
 
 // We build a loader and add all of our resources to the boot loader
 // You can build your own loader by extending DefaultLoader
-export const loader = new Loader();
+export const loader = new DefaultLoader();
 for (const res of Object.values(Resources)) {
   loader.addResource(res);
 }
