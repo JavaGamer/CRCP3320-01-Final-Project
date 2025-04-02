@@ -4,7 +4,9 @@ import { DefaultLoader, ImageSource, Loader } from "excalibur";
 export const Resources = {
   Sword: new ImageSource("./images/sword.png") // Vite public/ directory serves the root images
 } as const; // the 'as const' is a neat typescript trick to get strong typing on your resources. 
-// So when you type Resources.Sword -> ImageSource
+
+export const Configs = {
+} as const;
 
 // We build a loader and add all of our resources to the boot loader
 // You can build your own loader by extending DefaultLoader
