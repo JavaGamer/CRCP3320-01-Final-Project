@@ -1,4 +1,4 @@
-import { Actor, clamp, Collider, CollisionContact, CollisionType, Color, Engine, Side, vec, Vector } from "excalibur";
+import { Actor, clamp, Collider, CollisionContact, CollisionType, Color, Engine, Scene, Side, vec, Vector } from "excalibur";
 import { Resources } from "../resources";
 import { ClockManager, isEntityOnScreen, RandomManager } from "../util";
 import { Wall } from "./wall";
@@ -7,8 +7,8 @@ import { GameDefault } from "../game_default";
 
 export class Ball extends Actor {
   velocity: Vector;
-
-  constructor() {
+  scene: GameDefault;
+  constructor(scene: GameDefault) {
     super({
       name: 'Ball',
       pos: Vector.Zero,
@@ -20,6 +20,7 @@ export class Ball extends Actor {
     });
 
     this.velocity = vec(0, 0);
+    this.scene = scene;
 
   }
 
@@ -40,7 +41,10 @@ export class Ball extends Actor {
 
     this.on('exitviewport', () => {
       ClockManager.schedule(_ => {
-        if (!isEntityOnScreen(this, engine)) { this.reset(engine); }
+        if (!isEntityOnScreen(this, engine)) { 
+          this.reset(engine); 
+          this.scene.reset_score();
+        }
 
       }, 400)
     });

@@ -4,11 +4,14 @@ import { Wall } from "./actors/wall";
 import { keyToPhysicalLocation } from "./util";
 import { Goal } from "./actors/goal";
 
+const BestScoreKey = "bestScore";
+
 export class GameDefault extends Scene {
     active_walls: Map<Keys, Wall> = new Map();
     score: number = 0;
     best_score: number = 0;
     scoreLabel: Label;
+    bestScoreLabel: Label;
 
     constructor(){
         super();
@@ -21,14 +24,27 @@ export class GameDefault extends Scene {
                 unit: FontUnit.Px
             })
         });
+
+        this.bestScoreLabel = new Label({
+            text: 'Highscore: 0',
+            pos: vec(100, 300),
+            font: new Font({
+                family: 'Robto',
+                size: 24,
+                unit: FontUnit.Px
+            })
+        });
     }
 
     override onInitialize(engine: Engine): void {
         // Scene.onInitialize is where we recommend you perform the composition for your game
-        let best_score = localStorage.getItem();
-        if ()
+        let bestScore = localStorage.getItem(BestScoreKey);
+        if (bestScore){
+            this.best_score = parseInt(bestScore);
+        }
 
         this.add(this.scoreLabel);
+        this.add(this.bestScoreLabel);
         this.reset(engine);
     }
 
@@ -47,16 +63,21 @@ export class GameDefault extends Scene {
     }
 
     increase_score(){
-        this.score += 1;
         this.scoreLabel.text = `Score: ${++this.score}`;
         
         if (this.score > this.best_score){
             this.best_score = this.score;
+            localStorage.setItem(BestScoreKey, String(this.best_score));
         }
     }
 
+    reset_score(){
+        this.score = 0;
+        this.scoreLabel.text = `Score: ${this.score}`;
+    }
+
     reset(engine: Engine){
-        const player = new Ball();
+        const player = new Ball(this);
         const goal = new Goal(this);
 
         this.add(player); // Actors need to be added to a scene to be drawn
