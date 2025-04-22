@@ -1,8 +1,8 @@
-import { DefaultLoader, ImageSource, Loader } from "excalibur";
+import { DefaultLoader, ImageSource } from "excalibur";
 
 // It is convenient to put your resources in one place
 export const Resources = {
-  Sword: new ImageSource("./images/sword.png") // Vite public/ directory serves the root images
+  Ball: new ImageSource("./images/sword.png") // Vite public/ directory serves the root images
 } as const; // the 'as const' is a neat typescript trick to get strong typing on your resources. 
 
 export const Configs = {

@@ -1,41 +1,31 @@
-import { Actor, Collider, CollisionContact, CollisionType, Color, Engine, randomIntInRange, Side, vec, Vector } from "excalibur";
-import { Resources } from "./resources";
+import { Actor, Collider, CollisionContact, CollisionType, Color, Engine, Keys, Side, vec, Vector } from "excalibur";
+import { keyToPhysicalLocation, RandomManager } from "../util";
 
 
-export class Ball extends Actor {
-  velocity: Vector;
+export class Wall extends Actor {
+    /// Location as grid index
+    location: Vector;
 
-  constructor() {
+    // TODO: Refactor into normal and player walls
+    // Physical Keycode the wall represents
+    key_code: Keys;
+  constructor(key: Keys) {
     super({
-      name: 'Ball',
-      pos: vec(150, 150),
-      radius: 50,
-      anchor: vec(0.5, 0.5),
+      name: 'Wall',
+      pos: Vector.Zero,
+      width: 50,
+      height: 50,
       collisionType: CollisionType.Passive,
-      z: 1,
-      color: Color.Azure,
+      color: Color.Red,
       });
 
-      this.velocity = vec(0, 0);
-    
+      this.location = Vector.Zero;
+      this.key_code = key;
   }
 
   override onInitialize() {
-    let sword_sprite = Resources.Sword.toSprite();
-    sword_sprite.tint = this.color;
-    this.graphics.add(sword_sprite);
-
-    this.velocity = vec(50, 50);
-
-    setTimeout(() => {
-      this.velocity.add(vec(-Math.random() * 50 , -Math.random() * 50));
-    }, 1000);
-    // Sometimes you want to click on an actor!
-    this.on('pointerdown', evt => {
-      console.log('You clicked the actor @', evt.worldPos.toString());
-    });
-
-    this.on('exitviewport', evt => {});
+    this.location = keyToPhysicalLocation(this.key_code);
+    this.pos = vec(this.location.x * 150, this.location.y * 280).add(vec(this.width + 5, this.height + 30));
   }
 
   override onPreUpdate(engine: Engine, elapsedMs: number): void {
@@ -44,8 +34,6 @@ export class Ball extends Actor {
 
   override onPostUpdate(engine: Engine, elapsedMs: number): void {
     // Put any update logic here runs every frame after Actor builtins
-      this.vel = this.velocity;
-      console.log(this.vel);
   }
 
   override onPreCollisionResolve(self: Collider, other: Collider, side: Side, contact: CollisionContact): void {

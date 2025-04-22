@@ -1,11 +1,35 @@
-import { DefaultLoader, Engine, ExcaliburGraphicsContext, Scene, SceneActivationContext } from "excalibur";
-import { Ball } from "./ball";
+import { DefaultLoader, Engine, ExcaliburGraphicsContext, Scene, SceneActivationContext, Keys, Vector, Label, Font, FontUnit, vec } from "excalibur";
+import { Ball } from "./actors/ball";
+import { Wall } from "./actors/wall";
+import { keyToPhysicalLocation } from "./util";
+import { Goal } from "./actors/goal";
 
 export class GameDefault extends Scene {
+    active_walls: Map<Keys, Wall> = new Map();
+    score: number = 0;
+    best_score: number = 0;
+    scoreLabel: Label;
+
+    constructor(){
+        super();
+        this.scoreLabel = new Label({
+            text: 'Score: 0',
+            pos: vec(100, 100),
+            font: new Font({
+                family: 'Robto',
+                size: 24,
+                unit: FontUnit.Px
+            })
+        });
+    }
+
     override onInitialize(engine: Engine): void {
         // Scene.onInitialize is where we recommend you perform the composition for your game
-        const player = new Ball();
-        this.add(player); // Actors need to be added to a scene to be drawn
+        let best_score = localStorage.getItem();
+        if ()
+
+        this.add(this.scoreLabel);
+        this.reset(engine);
     }
 
     override onPreLoad(loader: DefaultLoader): void {
@@ -22,8 +46,47 @@ export class GameDefault extends Scene {
         // Only 1 scene is active at a time
     }
 
+    increase_score(){
+        this.score += 1;
+        this.scoreLabel.text = `Score: ${++this.score}`;
+        
+        if (this.score > this.best_score){
+            this.best_score = this.score;
+        }
+    }
+
+    reset(engine: Engine){
+        const player = new Ball();
+        const goal = new Goal(this);
+
+        this.add(player); // Actors need to be added to a scene to be drawn
+        this.add(goal);
+    }
+
     override onPreUpdate(engine: Engine, elapsedMs: number): void {
         // Called before anything updates in the scene
+        let keys = new Set(engine.input.keyboard.getKeys());
+        
+        let active_wall_set = new Set(this.active_walls.keys());
+
+        active_wall_set.difference(keys).forEach(deactivated_key => {
+            let deleted_wall = this.active_walls.get(deactivated_key);
+            if (deleted_wall) {
+                deleted_wall.kill()
+                this.active_walls.delete(deactivated_key)
+            }
+
+        })
+
+        keys.difference(active_wall_set).forEach(active_key => {
+            if (keyToPhysicalLocation(active_key) != Vector.One.negate()){
+                let newWall = new Wall(active_key);
+
+                this.add(newWall)
+                this.active_walls.set(active_key, newWall)
+            }
+
+        })
     }
 
     override onPostUpdate(engine: Engine, elapsedMs: number): void {
