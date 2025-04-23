@@ -3,6 +3,7 @@ import { Ball } from "./actors/ball";
 import { Wall } from "./actors/wall";
 import { keyToPhysicalLocation } from "./util";
 import { Goal } from "./actors/goal";
+import { Resources } from "./resources";
 
 const BestScoreKey = "bestScore";
 
@@ -27,7 +28,7 @@ export class GameDefault extends Scene {
 
         this.bestScoreLabel = new Label({
             text: 'Highscore: 0',
-            pos: vec(100, 300),
+            pos: vec(300, 400),
             font: new Font({
                 family: 'Robto',
                 size: 24,
@@ -41,6 +42,7 @@ export class GameDefault extends Scene {
         let bestScore = localStorage.getItem(BestScoreKey);
         if (bestScore){
             this.best_score = parseInt(bestScore);
+            this.bestScoreLabel.text = `Highscore: ${this.best_score}`;
         }
 
         this.add(this.scoreLabel);
@@ -53,6 +55,7 @@ export class GameDefault extends Scene {
     }
 
     override onActivate(context: SceneActivationContext<unknown>): void {
+        Resources.BackgroundMusic.play()
         // Called when Excalibur transitions to this scene
         // Only 1 scene is active at a time
     }
@@ -68,6 +71,7 @@ export class GameDefault extends Scene {
         if (this.score > this.best_score){
             this.best_score = this.score;
             localStorage.setItem(BestScoreKey, String(this.best_score));
+            this.bestScoreLabel.text = `Highscore: ${this.best_score}`;
         }
     }
 
