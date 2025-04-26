@@ -1,4 +1,4 @@
-import { DefaultLoader, Engine, ExcaliburGraphicsContext, Scene, SceneActivationContext, Keys, Vector, Label, Font, FontUnit, vec } from "excalibur";
+import { DefaultLoader, Engine, ExcaliburGraphicsContext, Scene, SceneActivationContext, Keys, Vector, Label, Font, FontUnit, vec, Color, EmitterType, ParticleEmitter } from "excalibur";
 import { Ball } from "./actors/ball";
 import { Wall } from "./actors/wall";
 import { keyToPhysicalLocation } from "./util";
@@ -6,6 +6,19 @@ import { Goal } from "./actors/goal";
 import { Resources } from "./resources";
 
 const BestScoreKey = "bestScore";
+
+// 1. Proper Random Background
+// 2. Ball Trails
+// 3. Goal Graphics
+// 4. Sound Effects
+// 5. Start Screen
+// 6. Ball Graphic
+// 7. Pause before new ball
+// - Bullshit Reactions like the cat game
+// - Death Effects
+// - Bullshit Screen Effect
+// - Bullshit gameplay
+// - Bullshit Dialogue
 
 export class GameDefault extends Scene {
     active_walls: Map<Keys, Wall> = new Map();
@@ -83,8 +96,24 @@ export class GameDefault extends Scene {
     reset(engine: Engine){
         const player = new Ball(this);
         const goal = new Goal(this);
+        const emitter = new ParticleEmitter({
+            particle: {
+                startSize: 35,
+                endSize: 5,
+                fade: true,
+                beginColor: Color.Black,
+                // graphic: Resources.Ball.toSprite(),
+            },
+            pos: Vector.Zero,
+            radius: 10,
+            emitterType: EmitterType.Circle,
+            isEmitting: true,
+            emitRate: 12,
+
+         });
 
         this.add(player); // Actors need to be added to a scene to be drawn
+        player.addChild(emitter);
         this.add(goal);
     }
 

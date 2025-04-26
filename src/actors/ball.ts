@@ -1,4 +1,4 @@
-import { Actor, clamp, Collider, CollisionContact, CollisionType, Color, Engine, Scene, Side, vec, Vector } from "excalibur";
+import { Actor, clamp, Collider, CollisionContact, CollisionType, Color, Engine, Scene, Side, Sprite, vec, Vector } from "excalibur";
 import { Resources } from "../resources";
 import { ClockManager, isEntityOnScreen, RandomManager } from "../util";
 import { Wall } from "./wall";
@@ -8,6 +8,7 @@ import { GameDefault } from "../game_default";
 export class Ball extends Actor {
   velocity: Vector;
   scene: GameDefault;
+  ballSprite: Sprite;
   constructor(scene: GameDefault) {
     super({
       name: 'Ball',
@@ -21,13 +22,12 @@ export class Ball extends Actor {
 
     this.velocity = vec(0, 0);
     this.scene = scene;
+    this.ballSprite = Resources.Ball.toSprite();
 
   }
 
   override onInitialize(engine: Engine) {
-    let ball_sprite = Resources.Ball.toSprite();
-    ball_sprite.tint = this.color;
-    this.graphics.add(ball_sprite);
+    this.graphics.add(this.ballSprite);
 
     this.pos = engine.screen.center;
 
@@ -53,6 +53,8 @@ export class Ball extends Actor {
   reset(engine: Engine): void {
     this.vel = Vector.Zero;
     this.pos = engine.screen.center;
+    this.color = Color.fromHSL(RandomManager.next(),0.9, 0.5);
+    this.ballSprite.tint = this.color;
   }
 
   override onPreUpdate(engine: Engine, elapsedMs: number): void {
