@@ -1,6 +1,6 @@
 import { Actor, clamp, Collider, CollisionContact, CollisionType, Color, Engine, Scene, Side, Sprite, vec, Vector } from "excalibur";
 import { Resources } from "../resources";
-import { ClockManager, isEntityOnScreen, RandomManager } from "../util";
+import { ClockManager, isEntityOnScreen, randomColor, RandomManager } from "../util";
 import { Wall } from "./wall";
 import { GameDefault } from "../game_default";
 
@@ -53,7 +53,7 @@ export class Ball extends Actor {
   reset(engine: Engine): void {
     this.vel = Vector.Zero;
     this.pos = engine.screen.center;
-    this.color = Color.fromHSL(RandomManager.next(),0.9, 0.5);
+    this.color = randomColor();
     this.ballSprite.tint = this.color;
   }
 

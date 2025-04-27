@@ -4,11 +4,10 @@ import { Wall } from "./actors/wall";
 import { keyToPhysicalLocation } from "./util";
 import { Goal } from "./actors/goal";
 import { Resources } from "./resources";
+import { GameBackgroundImage } from "./actors/background_actor";
 
 const BestScoreKey = "bestScore";
 
-// 1. Proper Random Background
-// 2. Ball Trails
 // 3. Goal Graphics
 // 4. Sound Effects
 // 5. Start Screen
@@ -58,6 +57,7 @@ export class GameDefault extends Scene {
             this.bestScoreLabel.text = `Highscore: ${this.best_score}`;
         }
 
+        this.add(new GameBackgroundImage())
         this.add(this.scoreLabel);
         this.add(this.bestScoreLabel);
         this.reset(engine);

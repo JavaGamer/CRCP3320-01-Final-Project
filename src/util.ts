@@ -1,4 +1,4 @@
-import { CoordPlane, Keys, Random, StandardClock, Vector } from "excalibur";
+import { Color, CoordPlane, Keys, Random, StandardClock, Vector } from "excalibur";
 
 export var RandomManager = new Random();
 export var ClockManager = new StandardClock({tick: ts => {}});
@@ -20,6 +20,10 @@ export async function waitForFontLoad(font: string, timeout = 2000, interval = 1
       }, interval);
       setTimeout(() => clearInterval(poller), timeout);
     });
+}
+
+export function randomColor(){
+    return Color.fromHSL(RandomManager.next(),0.9, 0.5);
 }
 
 // This is really a hodgepodge mess taken from ExcaliburJS OffscreenSystem modified for my own needs.
