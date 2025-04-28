@@ -18,7 +18,7 @@ const game = new Engine({
   pixelArt: true, // pixelArt will turn on the correct settings to render pixel art without jaggies or shimmering artifacts
   scenes: {
     main_menu: MainMenu,
-    test_game: GameDefault,
+    main_game: GameDefault,
   },
   physics: {
     solver: SolverStrategy.Realistic,
@@ -30,8 +30,10 @@ const game = new Engine({
 });
 
 await waitForFontLoad('24px Robto');
+await waitForFontLoad('normal 400 50px "Rock 3D"');
+await waitForFontLoad('normal 400 50px "Rubik Iso"');
 
-await game.start('test_game', { // name of the start scene 'start'
+await game.start('main_menu', { // name of the start scene 'start'
   loader, // Optional loader (but needed for loading images/sounds)
   inTransition: new FadeInOut({ // Optional in transition
     duration: 1000,

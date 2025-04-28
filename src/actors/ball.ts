@@ -55,6 +55,7 @@ export class Ball extends Actor {
     this.pos = engine.screen.center;
     this.color = randomColor();
     this.ballSprite.tint = this.color;
+    Resources.LoseSound.play()
   }
 
   override onPreUpdate(engine: Engine, elapsedMs: number): void {

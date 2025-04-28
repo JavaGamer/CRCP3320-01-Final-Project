@@ -1,5 +1,6 @@
 import { Actor, Collider, CollisionContact, CollisionType, Color, Engine, Keys, Side, vec, Vector } from "excalibur";
 import { keyToPhysicalLocation, RandomManager } from "../util";
+import { Resources } from "../resources";
 
 
 export class Wall extends Actor {
@@ -24,6 +25,7 @@ export class Wall extends Actor {
   }
 
   override onInitialize() {
+    this.graphics.add(Resources.Wall.toSprite())
     this.location = keyToPhysicalLocation(this.key_code);
     this.pos = vec(this.location.x * 150, this.location.y * 280).add(vec(this.width + 5, this.height + 30));
   }

@@ -1,8 +1,11 @@
 import { DefaultLoader, Engine, ExcaliburGraphicsContext, Scene, SceneActivationContext } from "excalibur";
+import { Resources } from "./resources";
+import { GameBackgroundImage } from "./actors/background_actor";
 
 export class MainMenu extends Scene {
     override onInitialize(engine: Engine): void {
         // Scene.onInitialize is where we recommend you perform the composition for your game
+        this.add(new GameBackgroundImage())
     }
 
     override onPreLoad(loader: DefaultLoader): void {
@@ -10,6 +13,7 @@ export class MainMenu extends Scene {
     }
 
     override onActivate(context: SceneActivationContext<unknown>): void {
+        Resources.BackgroundMusic.play()
         // Called when Excalibur transitions to this scene
         // Only 1 scene is active at a time
     }

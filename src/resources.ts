@@ -5,8 +5,15 @@ export const Resources = {
   // Vite public/ directory serves the root images
   Ball: new ImageSource("./images/sword.png"), 
   BackgroundCat: new ImageSource("./images/BackgroundCat.jpg"),
+  Goal: new ImageSource("./images/Goal.png"),
+  Wall: new ImageSource("./images/Wall.png"),
   // Music
   BackgroundMusic: new Sound('./sounds/BackgroundMusic.ogg'),
+  // Sound
+  LoseSound: new Sound('./sounds/Deltarune-Explosion.mp3'),
+  HighScoreSound: new Sound('./sounds/FnafKidCheer.mp3'),
+  WinSound: new Sound('./sounds/bup.mp3'),
+
 } as const; // the 'as const' is a neat typescript trick to get strong typing on your resources. 
 
 Resources.BackgroundMusic.loop = true;

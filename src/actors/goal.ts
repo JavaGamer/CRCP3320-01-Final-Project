@@ -2,6 +2,7 @@ import { Actor, Collider, CollisionContact, CollisionType, Color, Engine, Side, 
 import { RandomManager } from "../util";
 import { Ball } from "./ball";
 import { GameDefault } from "../game_default";
+import { Resources } from "../resources";
 
 const SPAWN_PADDING = 50;
 
@@ -11,8 +12,8 @@ export class Goal extends Actor {
         super({
             name: 'Goal',
             pos: vec(150, 150),
-            width: 40,
-            height: 40,
+            width: 70,
+            height: 70,
             collisionType: CollisionType.Passive,
             color: Color.Violet,
         });
@@ -26,11 +27,15 @@ export class Goal extends Actor {
     }
 
     override onInitialize(engine: Engine) {
+        let sprite = Resources.Goal.toSprite();
         this.pos = this.get_random_position(engine);
+        sprite.tint = this.color;
+        this.graphics.add(sprite)
 
         this.on("collisionend", ev => {
             if (ev.other.owner instanceof Ball) {
                 this.scene.increase_score();
+                Resources.WinSound.play()
                 this.reset(engine);
             }
         });

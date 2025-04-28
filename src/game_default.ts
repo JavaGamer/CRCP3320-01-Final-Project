@@ -1,4 +1,4 @@
-import { DefaultLoader, Engine, ExcaliburGraphicsContext, Scene, SceneActivationContext, Keys, Vector, Label, Font, FontUnit, vec, Color, EmitterType, ParticleEmitter } from "excalibur";
+import { DefaultLoader, Engine, ExcaliburGraphicsContext, Scene, SceneActivationContext, Keys, Vector, Label, Font, FontUnit, vec, Color, EmitterType, ParticleEmitter, FontStyle } from "excalibur";
 import { Ball } from "./actors/ball";
 import { Wall } from "./actors/wall";
 import { keyToPhysicalLocation } from "./util";
@@ -8,16 +8,9 @@ import { GameBackgroundImage } from "./actors/background_actor";
 
 const BestScoreKey = "bestScore";
 
-// 3. Goal Graphics
-// 4. Sound Effects
 // 5. Start Screen
-// 6. Ball Graphic
 // 7. Pause before new ball
 // - Bullshit Reactions like the cat game
-// - Death Effects
-// - Bullshit Screen Effect
-// - Bullshit gameplay
-// - Bullshit Dialogue
 
 export class GameDefault extends Scene {
     active_walls: Map<Keys, Wall> = new Map();
@@ -30,21 +23,33 @@ export class GameDefault extends Scene {
         super();
         this.scoreLabel = new Label({
             text: 'Score: 0',
-            pos: vec(100, 100),
+            pos: vec(110, 100),
             font: new Font({
-                family: 'Robto',
-                size: 24,
-                unit: FontUnit.Px
+                family: '"Rock 3D"',
+                size: 110,
+                style: FontStyle.Normal,
+                unit: FontUnit.Px,
+                shadow: {
+                    blur: 3,
+                    offset: vec(2, 2),
+                    color: Color.White,
+                },
             })
+            
         });
 
         this.bestScoreLabel = new Label({
             text: 'Highscore: 0',
-            pos: vec(300, 400),
+            pos: vec(320, 400),
             font: new Font({
-                family: 'Robto',
-                size: 24,
-                unit: FontUnit.Px
+                family: '"Rubik Iso"',
+                size: 70,
+                unit: FontUnit.Px,
+                shadow: {
+                    blur: 3,
+                    offset: vec(2, 2),
+                    color: Color.White,
+                },
             })
         });
     }
@@ -68,7 +73,6 @@ export class GameDefault extends Scene {
     }
 
     override onActivate(context: SceneActivationContext<unknown>): void {
-        Resources.BackgroundMusic.play()
         // Called when Excalibur transitions to this scene
         // Only 1 scene is active at a time
     }
@@ -85,6 +89,7 @@ export class GameDefault extends Scene {
             this.best_score = this.score;
             localStorage.setItem(BestScoreKey, String(this.best_score));
             this.bestScoreLabel.text = `Highscore: ${this.best_score}`;
+            Resources.HighScoreSound.play();
         }
     }
 
