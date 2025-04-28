@@ -1,11 +1,15 @@
 import { DefaultLoader, Engine, ExcaliburGraphicsContext, Scene, SceneActivationContext } from "excalibur";
 import { Resources } from "./resources";
 import { GameBackgroundImage } from "./actors/background_actor";
+import { TitleImage } from "./actors/title_image";
+import { StartButton } from "./actors/start_button";
 
 export class MainMenu extends Scene {
     override onInitialize(engine: Engine): void {
         // Scene.onInitialize is where we recommend you perform the composition for your game
         this.add(new GameBackgroundImage())
+        this.add(new TitleImage())
+        this.add(new StartButton())
     }
 
     override onPreLoad(loader: DefaultLoader): void {

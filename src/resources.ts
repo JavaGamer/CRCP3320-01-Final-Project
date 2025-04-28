@@ -5,6 +5,9 @@ export const Resources = {
   // Vite public/ directory serves the root images
   Ball: new ImageSource("./images/sword.png"), 
   BackgroundCat: new ImageSource("./images/BackgroundCat.jpg"),
+  Title: new ImageSource("./images/TitleScreen.png"),
+  StartButton: new ImageSource("./images/Start.png"),
+
   Goal: new ImageSource("./images/Goal.png"),
   Wall: new ImageSource("./images/Wall.png"),
   // Music

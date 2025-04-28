@@ -8,8 +8,6 @@ import { GameBackgroundImage } from "./actors/background_actor";
 
 const BestScoreKey = "bestScore";
 
-// 5. Start Screen
-// 7. Pause before new ball
 // - Bullshit Reactions like the cat game
 
 export class GameDefault extends Scene {
