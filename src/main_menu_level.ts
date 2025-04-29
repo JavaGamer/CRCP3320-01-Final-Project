@@ -3,6 +3,7 @@ import { Resources } from "./resources";
 import { GameBackgroundImage } from "./actors/background_actor";
 import { TitleImage } from "./actors/title_image";
 import { StartButton } from "./actors/start_button";
+import { ClockManager } from "./util";
 
 export class MainMenu extends Scene {
     override onInitialize(engine: Engine): void {
@@ -10,6 +11,8 @@ export class MainMenu extends Scene {
         this.add(new GameBackgroundImage())
         this.add(new TitleImage())
         this.add(new StartButton())
+
+        Resources.BackgroundMusic.play()
     }
 
     override onPreLoad(loader: DefaultLoader): void {
@@ -17,9 +20,8 @@ export class MainMenu extends Scene {
     }
 
     override onActivate(context: SceneActivationContext<unknown>): void {
-        Resources.BackgroundMusic.play()
         // Called when Excalibur transitions to this scene
-        // Only 1 scene is active at a time
+        ClockManager.schedule(ctx => { Resources.StartUpSound.play() }, 2000)
     }
 
     override onDeactivate(context: SceneActivationContext): void {

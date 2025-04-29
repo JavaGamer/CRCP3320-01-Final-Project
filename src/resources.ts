@@ -16,6 +16,8 @@ export const Resources = {
   LoseSound: new Sound('./sounds/Deltarune-Explosion.mp3'),
   HighScoreSound: new Sound('./sounds/FnafKidCheer.mp3'),
   WinSound: new Sound('./sounds/bup.mp3'),
+  StartUpSound: new Sound('./sounds/AlwaysConnected.mp3'),
+  MetalPipe: new Sound('./sounds/metalpipe.mp3'),
 
 } as const; // the 'as const' is a neat typescript trick to get strong typing on your resources. 
 

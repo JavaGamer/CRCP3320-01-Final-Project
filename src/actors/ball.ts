@@ -1,4 +1,4 @@
-import { Actor, clamp, Collider, CollisionContact, CollisionType, Color, Engine, Scene, Side, Sprite, vec, Vector } from "excalibur";
+import { Actor, clamp, Collider, CollisionContact, CollisionType, Color, Engine, Side, Sprite, vec, Vector } from "excalibur";
 import { Resources } from "../resources";
 import { ClockManager, isEntityOnScreen, randomColor, RandomManager } from "../util";
 import { Wall } from "./wall";

@@ -1,5 +1,6 @@
-import { Actor, CollisionType, Engine, RotationType, Vector } from "excalibur";
+import { Actor, CollisionType, Engine, Keys, RotationType, Vector } from "excalibur";
 import { Resources } from "../resources";
+import { BestScoreKey } from "../util";
 
 export class StartButton extends Actor {
   constructor() {
@@ -18,25 +19,29 @@ export class StartButton extends Actor {
     this.graphics.add(sprite);    
 
     this.actions.repeatForever(ctx => {
-      this.actions.delay(2723);
+      ctx.delay(2723);
       ctx.rotateTo({
         duration: 1000,
         angle: 0.249066,
         rotationType: RotationType.Clockwise,
       });
-      this.actions.delay(1323);
+      ctx.delay(1323);
       ctx.rotateTo({
         duration: 1200,
         angle: 0.1,
         rotationType: RotationType.Clockwise,
       });
-      this.actions.delay(2723);
+      ctx.delay(2723);
     });
   }
 
   override onPostUpdate(engine: Engine, elapsed: number): void {
+    
     let keys = engine.input.keyboard.getKeys();
-    if (keys.length > 0){
+    if (keys.includes(Keys.Delete)) {
+      localStorage.setItem(BestScoreKey, String(0));
+    }
+    else if (keys.length > 0 && !keys.includes(Keys.Escape)){
       engine.goToScene("main_game");
     }
   }

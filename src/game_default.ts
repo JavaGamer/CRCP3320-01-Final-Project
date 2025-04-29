@@ -1,14 +1,10 @@
-import { DefaultLoader, Engine, ExcaliburGraphicsContext, Scene, SceneActivationContext, Keys, Vector, Label, Font, FontUnit, vec, Color, EmitterType, ParticleEmitter, FontStyle } from "excalibur";
+import { DefaultLoader, Engine, ExcaliburGraphicsContext, Scene, SceneActivationContext, Keys, Vector, Label, Font, FontUnit, vec, Color, EmitterType, ParticleEmitter, FontStyle, Timer } from "excalibur";
 import { Ball } from "./actors/ball";
 import { Wall } from "./actors/wall";
-import { keyToPhysicalLocation } from "./util";
+import { BestScoreKey, keyToPhysicalLocation, RandomManager } from "./util";
 import { Goal } from "./actors/goal";
 import { Resources } from "./resources";
 import { GameBackgroundImage } from "./actors/background_actor";
-
-const BestScoreKey = "bestScore";
-
-// - Bullshit Reactions like the cat game
 
 export class GameDefault extends Scene {
     active_walls: Map<Keys, Wall> = new Map();
@@ -17,7 +13,7 @@ export class GameDefault extends Scene {
     scoreLabel: Label;
     bestScoreLabel: Label;
 
-    constructor(){
+    constructor() {
         super();
         this.scoreLabel = new Label({
             text: 'Score: 0',
@@ -33,7 +29,7 @@ export class GameDefault extends Scene {
                     color: Color.White,
                 },
             })
-            
+
         });
 
         this.bestScoreLabel = new Label({
@@ -54,16 +50,23 @@ export class GameDefault extends Scene {
 
     override onInitialize(engine: Engine): void {
         // Scene.onInitialize is where we recommend you perform the composition for your game
-        let bestScore = localStorage.getItem(BestScoreKey);
-        if (bestScore){
-            this.best_score = parseInt(bestScore);
-            this.bestScoreLabel.text = `Highscore: ${this.best_score}`;
-        }
 
         this.add(new GameBackgroundImage())
         this.add(this.scoreLabel);
         this.add(this.bestScoreLabel);
         this.reset(engine);
+
+        const timer = new Timer({
+            fcn: () => {
+                Resources.MetalPipe.play()
+                console.log("metal pipe");
+            },
+            interval: RandomManager.integer(1000, 98507),
+            randomRange: [9000, 31259], repeats: true
+        });
+
+        this.addTimer(timer)
+        timer.start();
     }
 
     override onPreLoad(loader: DefaultLoader): void {
@@ -73,6 +76,12 @@ export class GameDefault extends Scene {
     override onActivate(context: SceneActivationContext<unknown>): void {
         // Called when Excalibur transitions to this scene
         // Only 1 scene is active at a time
+        this.reset_score()
+        let bestScore = localStorage.getItem(BestScoreKey);
+        if (bestScore) {
+            this.best_score = parseInt(bestScore);
+            this.bestScoreLabel.text = `Highscore: ${this.best_score}`;
+        }
     }
 
     override onDeactivate(context: SceneActivationContext): void {
@@ -80,10 +89,10 @@ export class GameDefault extends Scene {
         // Only 1 scene is active at a time
     }
 
-    increase_score(){
+    increase_score() {
         this.scoreLabel.text = `Score: ${++this.score}`;
-        
-        if (this.score > this.best_score){
+
+        if (this.score > this.best_score) {
             this.best_score = this.score;
             localStorage.setItem(BestScoreKey, String(this.best_score));
             this.bestScoreLabel.text = `Highscore: ${this.best_score}`;
@@ -91,12 +100,12 @@ export class GameDefault extends Scene {
         }
     }
 
-    reset_score(){
+    reset_score() {
         this.score = 0;
         this.scoreLabel.text = `Score: ${this.score}`;
     }
 
-    reset(engine: Engine){
+    reset(engine: Engine) {
         const player = new Ball(this);
         const goal = new Goal(this);
         const emitter = new ParticleEmitter({
@@ -113,7 +122,7 @@ export class GameDefault extends Scene {
             isEmitting: true,
             emitRate: 12,
 
-         });
+        });
 
         this.add(player); // Actors need to be added to a scene to be drawn
         player.addChild(emitter);
@@ -121,9 +130,13 @@ export class GameDefault extends Scene {
     }
 
     override onPreUpdate(engine: Engine, elapsedMs: number): void {
+        if (engine.input.keyboard.wasPressed(Keys.Esc)) {
+            engine.goToScene("main_menu");
+        }
+
         // Called before anything updates in the scene
         let keys = new Set(engine.input.keyboard.getKeys());
-        
+
         let active_wall_set = new Set(this.active_walls.keys());
 
         active_wall_set.difference(keys).forEach(deactivated_key => {
@@ -136,7 +149,7 @@ export class GameDefault extends Scene {
         })
 
         keys.difference(active_wall_set).forEach(active_key => {
-            if (keyToPhysicalLocation(active_key) != Vector.One.negate()){
+            if (keyToPhysicalLocation(active_key) != Vector.One.negate()) {
                 let newWall = new Wall(active_key);
 
                 this.add(newWall)

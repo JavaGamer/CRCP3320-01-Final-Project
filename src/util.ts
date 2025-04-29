@@ -1,7 +1,9 @@
-import { Color, CoordPlane, Keys, Random, StandardClock, Vector } from "excalibur";
+import { Color, CoordPlane, EasingFunctions, Keys, Random, StandardClock, Vector } from "excalibur";
 
+export const BestScoreKey = "bestScore";
 export var RandomManager = new Random();
 export var ClockManager = new StandardClock({tick: ts => {}});
+export var EasingManager = new EasingFunctions();
 
 // Taken straight from the Excalibur.js Docs
 export async function waitForFontLoad(font: string, timeout = 2000, interval = 100) {

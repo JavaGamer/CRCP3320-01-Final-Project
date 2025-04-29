@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Color, Engine, ImageWrapping, TiledSprite, vec, Vector } from "excalibur";
+import { Actor, CollisionType, Color, Engine, ImageWrapping, TiledSprite, Vector } from "excalibur";
 import { Resources } from "../resources";
 import { randomColor } from "../util";
 
@@ -27,7 +27,5 @@ export class GameBackgroundImage extends Actor {
 
     sprite.tint = randomColor();
     this.graphics.add(sprite);
-    
-
   }
 }
