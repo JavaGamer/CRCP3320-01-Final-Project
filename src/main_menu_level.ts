@@ -8,7 +8,7 @@ import { ClockManager } from "./util";
 export class MainMenu extends Scene {
     override onInitialize(engine: Engine): void {
         // Scene.onInitialize is where we recommend you perform the composition for your game
-        this.add(new GameBackgroundImage())
+        this.add(new GameBackgroundImage(engine))
         this.add(new TitleImage())
         this.add(new StartButton())
 
@@ -21,7 +21,7 @@ export class MainMenu extends Scene {
 
     override onActivate(context: SceneActivationContext<unknown>): void {
         // Called when Excalibur transitions to this scene
-        ClockManager.schedule(ctx => { Resources.StartUpSound.play() }, 2000)
+        ClockManager.schedule(ctx => { Resources.StartUpSound.play() }, 1000)
     }
 
     override onDeactivate(context: SceneActivationContext): void {

@@ -46,7 +46,7 @@ export class Ball extends Actor {
           this.scene.reset_score();
         }
 
-      }, 400)
+      }, 200)
     });
   }
 

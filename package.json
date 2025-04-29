@@ -23,6 +23,7 @@
   "bugs": {},
   "homepage": "",
   "dependencies": {
+    "@tweenjs/tween.js": "^25.0.0",
     "color-tween": "^0.1.1",
     "excalibur": "0.30.3"
   },

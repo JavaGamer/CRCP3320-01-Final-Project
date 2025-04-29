@@ -51,7 +51,7 @@ export class GameDefault extends Scene {
     override onInitialize(engine: Engine): void {
         // Scene.onInitialize is where we recommend you perform the composition for your game
 
-        this.add(new GameBackgroundImage())
+        this.add(new GameBackgroundImage(engine))
         this.add(this.scoreLabel);
         this.add(this.bestScoreLabel);
         this.reset(engine);
@@ -61,8 +61,8 @@ export class GameDefault extends Scene {
                 Resources.MetalPipe.play()
                 console.log("metal pipe");
             },
-            interval: RandomManager.integer(1000, 98507),
-            randomRange: [9000, 31259], repeats: true
+            interval: RandomManager.integer(1000, 8507),
+            randomRange: [1000, 9125], repeats: true
         });
 
         this.addTimer(timer)
