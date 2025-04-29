@@ -6,7 +6,6 @@ import { Easing, Tween } from "@tweenjs/tween.js";
 export class GameBackgroundImage extends Actor {
   tween: Tween;
   sprite: Sprite;
-  cur_color: Color;
   next_color: Color;
 
   constructor(engine: Engine) {
@@ -16,7 +15,6 @@ export class GameBackgroundImage extends Actor {
       collisionType: CollisionType.PreventCollision,
       anchor: Vector.Zero,
       z: -1,
-      color: Color.Magenta,
     });
 
     this.sprite = new TiledSprite({
@@ -29,21 +27,25 @@ export class GameBackgroundImage extends Actor {
       },
     });
 
-    this.cur_color = randomColor();
     this.next_color = randomColor();
-    this.tween = new Tween(this.color);
+    this.sprite.tint = randomColor();
 
+    this.tween = new Tween(this.sprite.tint);
   }
 
   override onInitialize(engine: Engine) {
-    this.sprite.tint = this.cur_color;
     this.graphics.add(this.sprite);
-    this.tween.to(this.next_color, RandomManager.integer(5000, 15000)).easing(Easing.Cubic.InOut).repeat(Infinity).onUpdate((new_color, _) => { this.sprite.tint = new_color; console.log("this.sprite.tint") }).start();
+    this.tween.dynamic(true).to(this.next_color, RandomManager.integer(5400, 9520)).repeat(Infinity).easing(Easing.Cubic.InOut).onRepeat(() => {
+      this.next_color = randomColor();
+    }).delay(543).startFromCurrentValues();
 
-    this.on("postupdate", (handler) => { this.tween.update(handler.elapsed); console.log(this.tween)})
-  }
-
-  override onAdd(engine: Engine): void {
-    this.sprite.tint = this.cur_color;
+    this.on("postupdate", () => { 
+      if (!this.tween.update()){
+        // this.tween.startFromCurrentValues()
+        // console.log(this.cur_color, this.next_color)
+      
+      }       
+    }
+    );
   }
 }
