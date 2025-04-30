@@ -17,7 +17,7 @@ const tiledPlugin = () => {
     };
 }
 
-defineConfig(async ()=> return {
+defineConfig(async ()=> {return {
     base: './', // optionally give a base path, useful for itch.io to serve relative instead of the default absolut
     plugins: [tiledPlugin()], // hint vite that tiled tilesets should be treated as external
     // currently excalibur plugins are commonjs
@@ -36,4 +36,4 @@ defineConfig(async ()=> return {
             }
         }
     }
-});
+}});
