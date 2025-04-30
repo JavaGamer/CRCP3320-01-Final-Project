@@ -41,9 +41,6 @@ export class GameBackgroundImage extends Actor {
 
     this.on("postupdate", () => { 
       if (!this.tween.update()){
-        // this.tween.startFromCurrentValues()
-        // console.log(this.cur_color, this.next_color)
-      
       }       
     }
     );

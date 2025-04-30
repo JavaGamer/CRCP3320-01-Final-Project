@@ -29,9 +29,11 @@ const game = new Engine({
   fixedUpdateTimestep: 16 // Turn on fixed update timestep when consistent physic simulation is important
 });
 
-await waitForFontLoad('24px Robto');
-await waitForFontLoad('normal 400 50px "Rock 3D"');
-await waitForFontLoad('normal 400 50px "Rubik Iso"');
+async () => {
+  await waitForFontLoad('24px Robto');
+  await waitForFontLoad('normal 400 50px "Rock 3D"');
+  await waitForFontLoad('normal 400 50px "Rubik Iso"');
+}
 
 await game.start('main_menu', { // name of the start scene 'start'
   loader, // Optional loader (but needed for loading images/sounds)
