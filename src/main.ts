@@ -29,13 +29,13 @@ const game = new Engine({
   fixedUpdateTimestep: 16 // Turn on fixed update timestep when consistent physic simulation is important
 });
 
-async () => {
+(async () => {
   await waitForFontLoad('24px Robto');
   await waitForFontLoad('normal 400 50px "Rock 3D"');
   await waitForFontLoad('normal 400 50px "Rubik Iso"');
-}
+})();
 
-await game.start('main_menu', { // name of the start scene 'start'
+(async () => await game.start('main_menu', { // name of the start scene 'start'
   loader, // Optional loader (but needed for loading images/sounds)
   inTransition: new FadeInOut({ // Optional in transition
     duration: 1000,
@@ -46,4 +46,4 @@ await game.start('main_menu', { // name of the start scene 'start'
   // Do something after the game starts
   console.log("Game Ended... This should not happen ideally...");
   ClockManager.start();
-});
+}))();
