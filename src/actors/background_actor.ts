@@ -37,11 +37,14 @@ export class GameBackgroundImage extends Actor {
     this.graphics.add(this.sprite);
     this.tween.dynamic(true).to(this.next_color, RandomManager.integer(5400, 9520)).repeat(Infinity).easing(Easing.Cubic.InOut).onRepeat(() => {
       this.next_color = randomColor();
+      this.tween.stop()
+      this.tween.to(this.next_color, RandomManager.integer(5400, 9520))
+      this.tween.startFromCurrentValues()
     }).delay(543).startFromCurrentValues();
 
-    this.on("postupdate", () => { 
-      if (!this.tween.update()){
-      }       
+
+    this.on("postupdate", () => {
+      this.tween.update()
     }
     );
   }

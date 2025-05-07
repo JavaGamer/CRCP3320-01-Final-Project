@@ -34,11 +34,6 @@ export class Ball extends Actor {
     // this.velocity = vec(RandomManager.integer(-100, 100) * 10, RandomManager.integer(-100, 100) * 10);
     this.body.applyLinearImpulse(vec(RandomManager.integer(-100, 100) * 10, RandomManager.integer(-100, 100) * 10));
 
-    // Sometimes you want to click on an actor!
-    this.on('pointerdown', evt => {
-      console.log('You clicked the actor @', evt.worldPos.toString());
-    });
-
     this.on('exitviewport', () => {
       ClockManager.schedule(_ => {
         if (!isEntityOnScreen(this, engine)) { 

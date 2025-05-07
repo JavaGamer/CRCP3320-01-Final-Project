@@ -59,7 +59,6 @@ export class GameDefault extends Scene {
         const timer = new Timer({
             fcn: () => {
                 Resources.MetalPipe.play()
-                console.log("metal pipe");
             },
             interval: RandomManager.integer(1000, 8507),
             randomRange: [1000, 9125], repeats: true
@@ -149,7 +148,7 @@ export class GameDefault extends Scene {
         })
 
         keys.difference(active_wall_set).forEach(active_key => {
-            if (keyToPhysicalLocation(active_key) != Vector.One.negate()) {
+            if (!keyToPhysicalLocation(active_key).equals(Vector.One.negate())) {
                 let newWall = new Wall(active_key);
 
                 this.add(newWall)

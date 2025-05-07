@@ -44,6 +44,5 @@ const game = new Engine({
   })
 }).then(() => {
   // Do something after the game starts
-  console.log("Game Ended... This should not happen ideally...");
   ClockManager.start();
 }))();
