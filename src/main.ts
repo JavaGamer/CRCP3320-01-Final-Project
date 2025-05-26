@@ -9,8 +9,6 @@ export enum GameStates {
   DefaultGame,
 }
 
-// Goal is to keep main.ts small and just enough to configure the engine
-
 const game = new Engine({
   width: 1300, // Logical width and height in game pixels
   height: 1000,
